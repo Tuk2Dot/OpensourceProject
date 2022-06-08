@@ -42,6 +42,14 @@ public class Node implements Comparable<Node> {
         }
     }
 
+    Node(double x, double y, Edge link) {
+        this.id = 0;
+        this.x = x;
+        this.y = y;
+        this.neighbors = new ArrayList<>();
+        addBranch(link.weight, link.node);
+    }
+
     @Override
     public int compareTo(@NonNull com.example.openswpro.Node n) {
         return Double.compare(this.f, n.f);
