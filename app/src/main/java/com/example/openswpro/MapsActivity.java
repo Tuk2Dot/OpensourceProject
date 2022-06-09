@@ -5,16 +5,20 @@ import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentActivity;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Looper;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -48,6 +52,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     public FusedLocationProviderClient fusedLocationClient;
     public LocationRequest locationRequest;
+    public LocationCallback locationCallback;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,7 +97,31 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         // 현재 위치 노드도 추가 graph[0]
         updateGPS();
 
+        // event that is triggered whenever the update interval is met
+        locationCallback = new LocationCallback() {
+            @Override
+            public void onLocationResult(@NonNull LocationResult locationResult) {
+                super.onLocationResult(locationResult);
+
+                updateGPS();
+            }
+        };
+
     } // end of onCreate()
+
+    protected void onStart() {
+        super.onStart();
+
+    }
+
+    protected void onResume() {
+        super.onResume();
+
+        startLocationUpdates();
+    }
+
+
+    ////////////////////////////////
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -111,25 +140,27 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     private void updateGPS() {
-        // get permissions from the user to track GPS
-        // get the current location from the fused client
-        // update the graph
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(MapsActivity.this);
 
+        // get permissions from the user to track GPS
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             // user provided the permission
-            fusedLocationClient .getLastLocation().addOnSuccessListener(this, new OnSuccessListener<Location>() {
+            // get the current location from the fused client
+            fusedLocationClient.getLastLocation().addOnSuccessListener(this, new OnSuccessListener<Location>() {
                 @Override
                 public void onSuccess(Location location) {
                     // we got permissions. Put the values of location
                     double x = location.getLongitude();
                     double y = location.getLatitude();
-                    Node.Edge closestLink;
-                    closestLink = findClosestNode(x, y);
+                    Node.Edge closestLink = findClosestNode(x, y);
 
                     Node node_zero = new Node(x, y, closestLink);
+
+                    // update the graph
                     graph[0] = node_zero;
+                    Node res = Node.aStar(graph[0], graph[6], graph);
+                    Node.printPath(res);
                 }
             });
         }
@@ -147,7 +178,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         Node.Edge edge_value = null;
 
         for (int i = 1; i < graph.length;) {
-            if (distance < calculateDistance(x, y, i++))
+            if (distance - calculateDistance(x, y, i++) > -1.0)
                 min = i;
         }
         edge_value.weight = distance;
@@ -160,10 +191,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         return Math.sqrt(Math.pow(x - graph[i].x, 2) + Math.pow(y - graph[i].y, 2));
     }
 
-    private void updateGraph(Location location) {
-        // update the graph, route and navigation
-        // (double) location.getLatitude()
+
+    @SuppressLint("MissingPermission")
+    private void startLocationUpdates() {
+        fusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, Looper.getMainLooper());
+        updateGPS();
     }
+
 
     @Override
     public void onMapReady(GoogleMap googleMap) {       // getMapAsync()로 지도 객체를 사용할 수 있을 때
@@ -173,7 +207,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         LatLng cbnu = new LatLng(36.6, 127.4);
         mMap.addMarker(new MarkerOptions().position(cbnu).title("Marker in Sydney"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(cbnu));
-        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(cbnu, 15));
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(cbnu, 16));
 
     } // end of onMapReady
 }
