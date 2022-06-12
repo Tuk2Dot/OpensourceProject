@@ -1,4 +1,4 @@
-package com.example.openswpro;
+package com.example.botany;
 
 import androidx.annotation.NonNull;
 
@@ -51,7 +51,7 @@ public class Node implements Comparable<Node> {
     }
 
     @Override
-    public int compareTo(@NonNull com.example.openswpro.Node n) {
+    public int compareTo(@NonNull com.example.botany.Node n) {
         return Double.compare(this.f, n.f);
     }
 

@@ -1,4 +1,4 @@
-package com.example.openswpro;
+package com.example.botany;
 
 import org.junit.Test;
 

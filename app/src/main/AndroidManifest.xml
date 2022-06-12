@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.openswpro">
+    package="com.example.botany">
 
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
@@ -32,7 +32,7 @@
             android:value="AIzaSyAtrTISy2lT0_3fFuLPdi_zehjIon8Gi9c" />
 
         <activity
-            android:name=".MapsActivity"
+            android:name="com.example.botany.MapsActivity"
             android:exported="true"
             android:label="@string/title_activity_maps">
             <intent-filter>
