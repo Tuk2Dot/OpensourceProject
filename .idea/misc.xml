@@ -3,6 +3,8 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/jeong/AndroidStudioProjects/myTest/app/src/main/res/layout/fragment_sleep.xml" value="0.1125" />
+        <entry key="..\:/Users/jeong/AndroidStudioProjects/myTest/app/src/main/res/layout/fragment_traffic.xml" value="0.259375" />
         <entry key="..\:/android studio project/myTest2/app/src/main/res/layout/activity_botany_info.xml" value="0.25364583333333335" />
         <entry key="..\:/android studio project/myTest2/app/src/main/res/layout/activity_create_botany.xml" value="0.25364583333333335" />
         <entry key="..\:/android studio project/myTest2/app/src/main/res/layout/activity_edit_member.xml" value="0.25364583333333335" />
