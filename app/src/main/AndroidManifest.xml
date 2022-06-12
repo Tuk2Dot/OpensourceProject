@@ -15,11 +15,6 @@
         android:theme="@style/Theme.OpenSWPro">
 
         <!-- Required for Android 10 (API level 29) and higher. -->
-        <service
-            android:name=".MyNavigationService"
-            android:foregroundServiceType="location" >
-        <!-- Any inner elements would go here. -->
-        </service>
 
         <!--
              TODO: Before you run your application, you need a Google Maps API key.

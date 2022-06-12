@@ -54,6 +54,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public LocationRequest locationRequest;
     public LocationCallback locationCallback;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,48 +78,50 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
                 .setMaxWaitTime(100);
 
+
         // 그래프 생성
-        try {
-            jsonArray = ReadingJSON.GetNodes();
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        graph = new Node[jsonArray.length() + 1];
-
-        for (int i = 1; i < jsonArray.length() + 1; i++) {
-            try {
-                graph[i] = new Node(i, target, jsonArray);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
-
-        // 현재 위치 노드도 추가 graph[0]
-        updateGPS();
-
-        // event that is triggered whenever the update interval is met
-        locationCallback = new LocationCallback() {
-            @Override
-            public void onLocationResult(@NonNull LocationResult locationResult) {
-                super.onLocationResult(locationResult);
-
-                updateGPS();
-            }
-        };
+//        try {
+//            jsonArray = ReadingJSON.GetNodes();
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        }
+//
+//        graph = new Node[jsonArray.length() + 1];
+//
+//        for (int i = 1; i < jsonArray.length() + 1; i++) {
+//            try {
+//                graph[i] = new Node(i, target, jsonArray);
+//            } catch (JSONException e) {
+//                e.printStackTrace();
+//            }
+//        }
+//        // 현재 위치 노드도 추가 graph[0]
+//        // event that is triggered whenever the update interval is met
+//
+//        updateGPS();
 
     } // end of onCreate()
 
     protected void onStart() {
         super.onStart();
 
-    }
+//        locationCallback = new LocationCallback() {
+//            @Override
+//            public void onLocationResult(@NonNull LocationResult locationResult) {      // 리스너
+//                super.onLocationResult(locationResult);
+//
+//                updateGPS();
+//            }
+//        };
+//
+//        startLocationUpdates();
+
+    } // end of onStart()
 
     protected void onResume() {
         super.onResume();
 
-        startLocationUpdates();
-    }
+    } // end of onResume()
 
 
     ////////////////////////////////
@@ -195,7 +198,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @SuppressLint("MissingPermission")
     private void startLocationUpdates() {
         fusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, Looper.getMainLooper());
-        updateGPS();
     }
 
 
@@ -205,7 +207,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         // Add a marker in Sydney and move the camera
         LatLng cbnu = new LatLng(36.6, 127.4);
-        mMap.addMarker(new MarkerOptions().position(cbnu).title("Marker in Sydney"));
+        mMap.addMarker(new MarkerOptions().position(cbnu).title("Hello!"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(cbnu));
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(cbnu, 16));
 
