@@ -1,5 +1,12 @@
 package com.example.botany.utils;
 
+/*******************************
+ * Program name : Node.java
+ * Author : Jeong, Junho
+ * Last update : 2022. 05. 30.
+ * Description : Weighted graph and A* algorithm class
+ *******************************/
+
 import androidx.annotation.NonNull;
 
 import org.json.JSONArray;

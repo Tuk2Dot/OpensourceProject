@@ -1,5 +1,13 @@
 package com.example.botany.utils;
 
+/********************************
+ * File Name : ReadingJSON.java
+ * Author : 2020069046 Jeong, Junho
+ * Last Update : 2022.05.28
+ * Description :
+ *  Read json objects from assets/waypoints.json
+ ********************************/
+
 import android.content.Context;
 import android.content.res.AssetManager;
 
